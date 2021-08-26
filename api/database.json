@@ -1,0 +1,50 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "George Orwell",
+      "email": "G.Orwell1984@email.com"
+    },
+    {
+      "id": 2,
+      "name": "J.K. Rowling",
+      "email": "J.K.Rowling@email.com"
+    }
+  ],
+  "authors": [
+    {
+      "id": 1,
+      "userId": 1
+    }
+  ],
+  "recipients": [
+    {
+      "id": 1,
+      "userId": 2
+    }
+  ],
+  "letters": [
+    {
+      "id": 1,
+      "authorId": 1,
+      "recipientId": 2,
+      "text": "ey gurl",
+      "topicId": 1,
+      "timeSent": 123456
+    }
+  ],
+  "topics": [
+    {
+      "id": 1,
+      "topic": "greeting"
+    },
+    {
+      "id": 2,
+      "topic": "congrats"
+    },
+    {
+      "id": 3,
+      "topic": "condolences"
+    }
+  ]
+}
