@@ -1,4 +1,52 @@
-import { getAuthors, getRecipients, getTopics, getUsers } from "./provider.js";
+import {
+  createNewLetter,
+  getAuthors,
+  getLetters,
+  getRecipients,
+  getTopics,
+  getUsers,
+} from "./provider.js";
+const applicationElement = document.querySelector(".penpals");
+
+// make one click event listener for the send button that builds the transient object to include author, letter, recipient and topic
+applicationElement.addEventListener("click", (click) => {
+  if (click.target.id === "send--letter") {
+    const author = parseInt(
+      applicationElement.querySelector("#select-author option:checked").value
+    );
+    const recipient = parseInt(
+      applicationElement.querySelector("#select-recipient option:checked").value
+    );
+    const topic = parseInt(
+      applicationElement.querySelector("input[name=select-topic]:checked").value
+    );
+    const letterText = applicationElement.querySelector(
+      "textarea[name='letter-text']"
+    ).value;
+    console.log(author);
+    console.log(recipient);
+    console.log(topic);
+    console.log(letterText);
+
+    const dataToAPI = {
+      authorId: author,
+      recipientId: recipient,
+      text: letterText,
+      topicId: topic,
+      timestamp: Date.now(),
+    };
+    if (
+      dataToAPI.authorId === "" ||
+      dataToAPI.recipientId === "" ||
+      dataToAPI.text === ""
+    ) {
+      window.alert("Please fill in all fields");
+    } else {
+      createNewLetter(dataToAPI);
+    }
+    // const letters = getLetters();
+  }
+});
 
 const selectAuthor = () => {
   const users = getUsers();
@@ -10,7 +58,7 @@ const selectAuthor = () => {
     html += `<option>Choose an author...</option>
         ${users
           .map((user) => {
-            return `<option value="select--${user.id}">${user.name}</option>`;
+            return `<option value="${user.id}">${user.name}</option>`;
           })
           .join("")}
     </select>
@@ -20,9 +68,9 @@ const selectAuthor = () => {
          ${users
            .map((user) => {
              if (authors === user.id) {
-               return `<option selected value="select--${user.id}">${user.name}</option>`;
+               return `<option selected value="${user.id}">${user.name}</option>`;
              } else {
-               return `<option value="select--${user.id}">${user.name}</option>`;
+               return `<option value="${user.id}">${user.name}</option>`;
              }
            })
            .join("")}
@@ -35,14 +83,13 @@ const selectAuthor = () => {
 const selectRecipient = () => {
   const users = getUsers();
   const recipients = getRecipients();
-
   let html = `<div class="create_letter"><select id="select-recipient">`;
 
   if (recipients === null) {
     html += `<option>Choose a recipient...</option>
         ${users
           .map((user) => {
-            return `<option value="select--${user.id}">${user.name}</option>`;
+            return `<option value="${user.id}">${user.name}</option>`;
           })
           .join("")}
     </select>
@@ -52,12 +99,13 @@ const selectRecipient = () => {
          ${users
            .map((user) => {
              if (recipients === user.id) {
-               return `<option selected value="select--${user.id}">${user.name}</option>`;
+               return `<option selected value="${user.id}">${user.name}</option>`;
              } else {
-               return `<option value="select--${user.id}">${user.name}</option>`;
+               return `<option value="${user.id}">${user.name}</option>`;
              }
            })
            .join("")}
+           
     </select>
     </div>`;
   }
@@ -80,8 +128,8 @@ const chooseTopic = () => {
   <div>
     ${topics
       .map((topic) => {
-        return `<input type="radio" id="topic--${topic.id}" name="name--${topic.topic}" value="value--${topic.topic}">
-        <label for="topic--${topic.id}">${topic.topic}</label>`;
+        return `<input type="radio" id="select-topic" name="select-topic" value="${topic.id}">
+        <label for="${topic.id}">${topic.topic}</label>`;
       })
       .join("")}
   </div>`;
@@ -102,7 +150,7 @@ export const CreateLetter = () => {
             ${selectRecipient()}
         </div>
         <div>
-        <button id="sendLetter">Send</button>
+        <button id="send--letter">Send</button>
     </div>
     `;
 };

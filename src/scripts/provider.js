@@ -7,11 +7,7 @@ const applicationState = {
   recipients: [],
   letters: [],
   topics: [],
-  feed: {
-    chosenAuthor: null,
-    chosenRecipient: null,
-    chosenTopic: null,
-  },
+  feed: {},
 };
 
 // Fetchers
